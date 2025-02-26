@@ -1,6 +1,6 @@
 name: frenda
 description: "自动生成包含 `toJson`、`fromJson`、`copyWith`、`toString`、`operator ==` 以及 `hashCode` 方法的 Dart 类"
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/misakafs/frenda
 
 environment:

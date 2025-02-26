@@ -133,8 +133,12 @@ class CodeGenerator {
   String genToJson() {
     final method = classDefinition.methods.where((method) => method.name == 'toJson').firstOrNull;
     if (method != null) {
-      final code = method.code ?? '';
-      return code.startsWith('@override') ? code : '@override\n$code';
+      var code = method.code ?? '';
+      code = code.startsWith('@override') ? code : '@override\n$code';
+      if (method.comment != null) {
+        code = '${method.comment}\n$code';
+      }
+      return code;
     }
     final buffer = StringBuffer();
     // 生成toJson方法
@@ -184,7 +188,10 @@ class CodeGenerator {
   String genCopyWith() {
     final method = classDefinition.methods.where((method) => method.name == 'copyWith').firstOrNull;
     if (method != null) {
-      final code = (method.code ?? '').replaceAll(config.prefix, '');
+      var code = (method.code ?? '').replaceAll(config.prefix, '');
+      if (method.comment != null) {
+        code = '${method.comment}\n$code';
+      }
       return code;
     }
     final buffer = StringBuffer();
@@ -206,8 +213,12 @@ class CodeGenerator {
   String genToString() {
     final method = classDefinition.methods.where((method) => method.name == 'toString').firstOrNull;
     if (method != null) {
-      final code = method.code ?? '';
-      return code.startsWith('@override') ? code : '@override\n$code';
+      var code = method.code ?? '';
+      code = code.startsWith('@override') ? code : '@override\n$code';
+      if (method.comment != null) {
+        code = '${method.comment}\n$code';
+      }
+      return code;
     }
     final buffer = StringBuffer();
     buffer.write('  @override\n  String toString() => \'${classDefinition.realName}(');

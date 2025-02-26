@@ -13,6 +13,7 @@ class User implements Serializable {
   /// 覆盖默认构造器
   User({required this.name});
 
+  /// 自定义方法，覆盖生成的toJson方法
   @override
   Map<String, dynamic> toJson() => {'n': name};
 
