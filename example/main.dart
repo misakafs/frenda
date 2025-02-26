@@ -1,8 +1,9 @@
-import 'user.dart';
+import 'simple.dart';
 
 void main() {
-  final user = User(name: 'test');
+  final simple = Simple(firstField: 'first');
+  print(simple.toString());
 
-  print(user.toJson());
-  print(user.hashCode);
+  /// output:
+  /// Simple(firstField: first, secondField: 10, third_field: null)
 }

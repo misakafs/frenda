@@ -50,7 +50,9 @@ part 'simple.g.dart';
 class $Simple {
   /// 定义字段
   late String firstField;
-  late final int secondField;
+
+  /// 设置默认值
+  late final int secondField = 10;
 
   /// 自定义序列化后的字段名
   @Filed('third_field')
@@ -70,16 +72,18 @@ part of 'simple.dart';
 // FrendaGenerator
 // **************************************************************************
 
+/// 注解进行标识，类名必须以 $ 开头，如果想要其他开头，需要修改配置
 class Simple implements Serializable {
+  /// 定义字段
   String firstField;
+
+  /// 设置默认值
   final int secondField;
+
+  /// 自定义序列化后的字段名
   bool? thirdField;
 
-  Simple({
-    required this.firstField,
-    required this.secondField,
-    this.thirdField,
-  });
+  Simple({required this.firstField, this.secondField = 10, this.thirdField});
 
   @override
   Map<String, dynamic> toJson() => {
@@ -108,15 +112,29 @@ class Simple implements Serializable {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Simple &&
-          runtimeType == other.runtimeType &&
-          other.firstField == firstField &&
-          other.secondField == secondField &&
-          other.thirdField == thirdField);
+          (other is Simple &&
+              runtimeType == other.runtimeType &&
+              other.firstField == firstField &&
+              other.secondField == secondField &&
+              other.thirdField == thirdField);
 
   @override
   int get hashCode => Object.hash(firstField, secondField, thirdField);
 }
+```
+
+- 使用生成后的类
+
+```dart
+import 'simple.dart';
+
+void main() {
+  final simple = Simple(firstField: 'first');
+  print(simple.toString());
+  /// output:
+  /// Simple(firstField: first, secondField: 10, third_field: null)
+}
+
 ```
 
 ## 更多例子
