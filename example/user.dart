@@ -6,11 +6,14 @@ part 'user.g.dart';
 class $User {
   late final String name;
 
+  /// 覆盖默认构造器
   $User({required this.name});
 
-  Map<String, dynamic> toJson() => {'name': name};
+  /// 自定义方法，覆盖生成的toJson方法
+  Map<String, dynamic> toJson() => {'n': name};
 
+  /// 覆盖生成的fromJson
   factory $User.fromJson(Map<String, dynamic> json) {
-    return $User(name: json['name']);
+    return $User(name: json['n']);
   }
 }

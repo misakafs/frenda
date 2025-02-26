@@ -10,13 +10,15 @@ part of 'user.dart';
 class User implements Serializable {
   final String name;
 
+  /// 覆盖默认构造器
   User({required this.name});
 
   @override
-  Map<String, dynamic> toJson() => {'name': name};
+  Map<String, dynamic> toJson() => {'n': name};
 
+  /// 覆盖生成的fromJson
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(name: json['name']);
+    return User(name: json['n']);
   }
 
   User copyWith({String? name}) => User(name: name ?? this.name);
