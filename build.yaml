@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      frenda|frenda:
+        enabled: true
+        options:
+          prefix: "$"
+
+builders:
+  frenda:
+    import: "package:frenda/builder.dart"
+    builder_factories: ["frendaGenerator"]
+    build_extensions: {".dart": [".g.dart"]}
+    auto_apply: dependents
+    build_to: source
