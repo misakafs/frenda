@@ -40,7 +40,7 @@ targets:
 
 ## 示例
 
-- [example.dart](example/example.dart)[user.dart](example/user.dart)
+- [example.dart](example/example.dart)
 
 定义字段
 
