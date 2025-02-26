@@ -40,78 +40,65 @@ targets:
 
 ## 示例
 
-- [user.dart](example/user.dart)
+- [example.dart](example/example.dart)[user.dart](example/user.dart)
 
 定义字段
 
 ```dart
 import 'package:frenda/frenda.dart';
 
-part 'user.g.dart';
-
-@frenda
-class $User {
-  late final String name;
-
-  $User({required this.name});
-
-  Map<String, dynamic> toJson() => {'name': name};
-
-  factory $User.fromJson(Map<String, dynamic> json) {
-    return $User(name: json['name']);
-  }
-}
-```
-
-- 生成后的 [user.g.dart](example/user.g.dart)
-
-```dart
-// dart format width=80
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-part of 'user.dart';
-
-// **************************************************************************
-// FrendaGenerator
-// **************************************************************************
-
-class User implements Serializable {
-  final String name;
-
-  User({required this.name});
-
-  @override
-  Map<String, dynamic> toJson() => {'name': name};
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(name: json['name']);
-  }
-
-  User copyWith({String? name}) => User(name: name ?? this.name);
-
-  @override
-  String toString() => 'User(name: $name)';
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is User && runtimeType == other.runtimeType && other.name == name);
-
-  @override
-  int get hashCode => name.hashCode;
-}
-```
-
-- 使用
-
-```dart
 import 'user.dart';
 
-void main() {
-  final user = User(name: 'test');
+part 'example.g.dart';
 
-  print(user.toJson());
-  print(user.hashCode);
+/// 测试例子
+@frenda
+class $Example {
+  late int field1;
+
+  /// 自定义序列化后的字段名
+  @Filed('field_2')
+  late String field2;
+
+  /// 设置默认值
+  bool field3 = true;
+
+  /// 设置不可变
+  late final double field4;
+
+  late List<int> field5;
+
+  List<String> field6 = ['one', 'two'];
+
+  late List<bool>? field7;
+
+  late List<double> field8;
+
+  late Map<String, dynamic> field9;
+
+  late Map<String, int> field10;
+
+  late Map<String, String> field11;
+
+  late Map<String, bool> field12;
+
+  Map<String, double> field13 = const {"three": 3.0};
+
+  late Map<int, dynamic> field14;
+
+  /// 嵌入其他的类型
+  late $User user1;
+
+  late $User? user2;
+
+  /// 自定义方法
+  String getString() {
+    return "example";
+  }
 }
 ```
+
+- 生成后的 [example.g.dart](example/example.g.dart)
+
+
 
