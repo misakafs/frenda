@@ -37,7 +37,7 @@ targets:
 
 ## 使用
 
-- [simple.dart](example/simple.dart)
+- [simple.dart](https://github.com/misakafs/frenda/blob/main/example/simple.dart)
 
 ```dart
 import 'package:frenda/frenda.dart';
@@ -121,7 +121,7 @@ class Simple implements Serializable {
 
 ## 更多例子
 
-[simple](example)
+[simple](https://github.com/misakafs/frenda/tree/main/example)
 
 
 
