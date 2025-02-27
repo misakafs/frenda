@@ -9,6 +9,7 @@ import 'parse_generator.dart';
 
 ///
 class FrendaGenerator extends GeneratorForAnnotation<Frenda> {
+  ///
   final FrendaConfig config;
 
   ///

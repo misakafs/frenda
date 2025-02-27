@@ -7,5 +7,7 @@ class FrendaConfig {
   const FrendaConfig({required this.prefix});
 
   ///
-  factory FrendaConfig.fromJson(Map<String, dynamic> json) => FrendaConfig(prefix: json['prefix'] as String);
+  factory FrendaConfig.fromJson(Map<String, dynamic> json) {
+    return FrendaConfig(prefix: json['prefix'] ?? '\$');
+  }
 }

@@ -13,7 +13,10 @@ const Map<String, bool> overrides = {
 
 /// 代码生成
 class CodeGenerator {
+  ///
   final ClassDefinition classDefinition;
+
+  ///
   final FrendaConfig config;
 
   ///
