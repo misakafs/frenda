@@ -21,6 +21,14 @@ class FrendaGenerator extends GeneratorForAnnotation<Frenda> {
       throw InvalidGenerationSourceError('`@frenda` can only be applied on classes.', element: element);
     }
 
+    if (!element.name.startsWith(config.prefix)) {
+      // 必须以指定的字符串进行开头
+      throw InvalidGenerationSourceError(
+        '`@frenda` annotated class ${element.name} must start with the prefix "${config.prefix}".',
+        element: element,
+      );
+    }
+
     // 提取类的信息
     final classDefinition = await ParseGenerator(buildStep, element, config).parse();
 
