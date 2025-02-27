@@ -1,8 +1,6 @@
 targets:
   $default:
     builders:
-      source_gen|combining_builder:
-        enabled: true
       frenda|frenda:
         enabled: true
         options:
@@ -12,6 +10,6 @@ builders:
   frenda:
     import: "package:frenda/builder.dart"
     builder_factories: ["frendaGenerator"]
-    build_extensions: {".dart": [".g.dart"]}
+    build_extensions: {".dart": [".frenda.g.dart"]}
     auto_apply: dependents
     build_to: source
