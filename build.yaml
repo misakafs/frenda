@@ -12,4 +12,5 @@ builders:
     builder_factories: ["frendaGenerator"]
     build_extensions: {".dart": [".frenda.g.dart"]}
     auto_apply: dependents
-    build_to: source
+    build_to: cache
+    runs_before: ["source_gen|combining_builder"]
