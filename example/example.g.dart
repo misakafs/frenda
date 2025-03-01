@@ -18,20 +18,39 @@ class Example implements Serializable {
 
   /// 设置不可变
   final double field4;
+
   List<int> field5;
+
   List<String> field6;
+
   List<bool>? field7;
+
   List<double> field8;
+
   Map<String, dynamic> field9;
+
   Map<String, int> field10;
+
   Map<String, String> field11;
+
   Map<String, bool> field12;
+
   Map<String, double> field13;
+
   Map<int, dynamic> field14;
+
+  List<User>? users1;
+
+  Map<String, User> users2;
+
+  Set<User> users3;
 
   /// 嵌入其他的类型
   User user1;
+
   User? user2;
+
+  static const name = 'example';
 
   Example({
     required this.field1,
@@ -48,6 +67,9 @@ class Example implements Serializable {
     required this.field12,
     this.field13 = const {"three": 3.0},
     required this.field14,
+    this.users1,
+    required this.users2,
+    required this.users3,
     required this.user1,
     this.user2,
   });
@@ -63,37 +85,63 @@ class Example implements Serializable {
     'field_2': field2,
     'field3': field3,
     'field4': field4,
-    'field5': field5,
-    'field6': field6,
-    'field7': field7,
-    'field8': field8,
-    'field9': field9,
-    'field10': field10,
-    'field11': field11,
-    'field12': field12,
-    'field13': field13,
-    'field14': field14,
-    'user1': user1,
-    'user2': user2,
+    'field5': field5.map((x0) => x0).toList(),
+    'field6': field6.map((x0) => x0).toList(),
+    'field7': field7?.map((x0) => x0).toList() ?? [],
+    'field8': field8.map((x0) => x0).toList(),
+    'field9': field9.map((k0, v0) => MapEntry(k0, v0)),
+    'field10': field10.map((k0, v0) => MapEntry(k0, v0)),
+    'field11': field11.map((k0, v0) => MapEntry(k0, v0)),
+    'field12': field12.map((k0, v0) => MapEntry(k0, v0)),
+    'field13': field13.map((k0, v0) => MapEntry(k0, v0)),
+    'field14': field14.map((k0, v0) => MapEntry(k0.toString(), v0)),
+    'users1': users1?.map((x0) => x0.toJson()).toList() ?? [],
+    'users2': users2.map((k0, v0) => MapEntry(k0, v0.toJson())),
+    'users3': users3,
+    'user1': user1.toJson(),
+    'user2': user2?.toJson(),
   };
 
   factory Example.fromJson(Map<String, dynamic> json) => Example(
-    field1: json['field1'] as int,
-    field2: json['field_2'] as String,
-    field3: json['field3'] as bool,
-    field4: json['field4'] as double,
-    field5: json['field5'] as List<int>,
-    field6: json['field6'] as List<String>,
-    field7: json['field7'] as List<bool>?,
-    field8: json['field8'] as List<double>,
-    field9: json['field9'] as Map<String, dynamic>,
-    field10: json['field10'] as Map<String, int>,
-    field11: json['field11'] as Map<String, String>,
-    field12: json['field12'] as Map<String, bool>,
-    field13: json['field13'] as Map<String, double>,
-    field14: json['field14'] as Map<int, dynamic>,
+    field1: json['field1'],
+    field2: json['field_2'],
+    field3: json['field3'],
+    field4: json['field4'],
+    field5: (json['field5'] as List<dynamic>).map((x0) => x0 as int).toList(),
+    field6:
+        (json['field6'] as List<dynamic>).map((x0) => x0 as String).toList(),
+    field7:
+        (json['field7'] as List<dynamic>?)?.map((x0) => x0 as bool).toList(),
+    field8:
+        (json['field8'] as List<dynamic>).map((x0) => x0 as double).toList(),
+    field9: (json['field9'] as Map<String, dynamic>).map(
+      (k0, v0) => MapEntry(k0, v0),
+    ),
+    field10: (json['field10'] as Map<String, int>).map(
+      (k0, v0) => MapEntry(k0, v0),
+    ),
+    field11: (json['field11'] as Map<String, String>).map(
+      (k0, v0) => MapEntry(k0, v0),
+    ),
+    field12: (json['field12'] as Map<String, bool>).map(
+      (k0, v0) => MapEntry(k0, v0),
+    ),
+    field13: (json['field13'] as Map<String, double>).map(
+      (k0, v0) => MapEntry(k0, v0),
+    ),
+    field14: (json['field14'] as Map<String, dynamic>).map(
+      (k0, v0) => MapEntry(int.parse(k0), v0),
+    ),
+    users1:
+        (json['users1'] as List<dynamic>?)
+            ?.map((x0) => User.fromJson(x0))
+            .toList(),
+    users2: (json['users2'] as Map<String, dynamic>).map(
+      (k0, v0) => MapEntry(k0, User.fromJson(v0)),
+    ),
+    users3: json['users3'],
     user1: User.fromJson(json['user1']),
-    user2: json['user2'] == null ? null : User.fromJson(json['user2']),
+    user2: User?.fromJson(json['user2'] ?? {}),
   );
 
   Example copyWith({
@@ -111,6 +159,9 @@ class Example implements Serializable {
     Map<String, bool>? field12,
     Map<String, double>? field13,
     Map<int, dynamic>? field14,
+    List<User>? users1,
+    Map<String, User>? users2,
+    Set<User>? users3,
     User? user1,
     User? user2,
   }) => Example(
@@ -128,13 +179,16 @@ class Example implements Serializable {
     field12: field12 ?? this.field12,
     field13: field13 ?? this.field13,
     field14: field14 ?? this.field14,
+    users1: users1 ?? this.users1,
+    users2: users2 ?? this.users2,
+    users3: users3 ?? this.users3,
     user1: user1 ?? this.user1,
     user2: user2 ?? this.user2,
   );
 
   @override
   String toString() =>
-      'Example(field1: $field1, field_2: $field2, field3: $field3, field4: $field4, field5: $field5, field6: $field6, field7: $field7, field8: $field8, field9: $field9, field10: $field10, field11: $field11, field12: $field12, field13: $field13, field14: $field14, user1: $user1, user2: $user2)';
+      'Example(field1: $field1, field2: $field2, field3: $field3, field4: $field4, field5: $field5, field6: $field6, field7: $field7, field8: $field8, field9: $field9, field10: $field10, field11: $field11, field12: $field12, field13: $field13, field14: $field14, users1: $users1, users2: $users2, users3: $users3, user1: $user1, user2: $user2)';
 
   @override
   bool operator ==(Object other) =>
@@ -155,6 +209,9 @@ class Example implements Serializable {
           other.field12 == field12 &&
           other.field13 == field13 &&
           other.field14 == field14 &&
+          other.users1 == users1 &&
+          other.users2 == users2 &&
+          other.users3 == users3 &&
           other.user1 == user1 &&
           other.user2 == user2);
 
@@ -174,6 +231,9 @@ class Example implements Serializable {
     field12,
     field13,
     field14,
+    users1,
+    users2,
+    users3,
     user1,
     user2,
   );

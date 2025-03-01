@@ -2,7 +2,8 @@
 
 [![pub package](https://img.shields.io/pub/v/frenda.svg)](https://pub.dev/packages/frenda)
 
-**Frenda** 是一个旨在提升开发效率的工具，它能够自动生成包含 `toJson`、`fromJson`、`copyWith`、`toString`、`operator ==` 以及 `hashCode` 方法的 Dart 类。
+**Frenda** 是一个旨在提升开发效率的工具，它能够自动生成包含 `toJson`、`fromJson`、`copyWith`、
+`toString`、`operator ==` 以及 `hashCode` 方法的 Dart 类。
 
 ## 安装
 
@@ -24,7 +25,7 @@ dart run build_runner build --delete-conflicting-outputs
 targets:
   $default:
     builders:
-      frenda:    
+      frenda:
         options:
           # 用于标识类的前缀
           prefix: "$"
@@ -34,6 +35,16 @@ targets:
 
 - `@frenda` | `@Frenda()` 用于标注类
 - `@filed` | `@Filed('json序列化的name')` 用于标注字段
+
+## 字段支持的类型
+
+- 不要使用过于复杂结构的类型，比如嵌套好几层的。
+- 建议复杂的对象，进行拆分
+
+- [x] 基础类型：`String`、`int`、`bool`、`double`、`num`
+- [x] 集合类型：`Map`、`List`、`Set`
+- [x] 嵌套类型
+- [ ] 枚举类型：暂不支持
 
 ## 使用
 
@@ -86,17 +97,19 @@ class Simple implements Serializable {
   Simple({required this.firstField, this.secondField = 10, this.thirdField});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'firstField': firstField,
-    'secondField': secondField,
-    'third_field': thirdField,
-  };
+  Map<String, dynamic> toJson() =>
+      {
+        'firstField': firstField,
+        'secondField': secondField,
+        'third_field': thirdField,
+      };
 
-  factory Simple.fromJson(Map<String, dynamic> json) => Simple(
-    firstField: json['firstField'] as String,
-    secondField: json['secondField'] as int,
-    thirdField: json['third_field'] as bool?,
-  );
+  factory Simple.fromJson(Map<String, dynamic> json) =>
+      Simple(
+        firstField: json['firstField'] as String,
+        secondField: json['secondField'] as int,
+        thirdField: json['third_field'] as bool?,
+      );
 
   Simple copyWith({String? firstField, int? secondField, bool? thirdField}) =>
       Simple(
@@ -131,6 +144,7 @@ import 'simple.dart';
 void main() {
   final simple = Simple(firstField: 'first');
   print(simple.toString());
+
   /// output:
   /// Simple(firstField: first, secondField: 10, third_field: null)
 }

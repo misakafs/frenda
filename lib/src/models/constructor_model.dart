@@ -1,15 +1,13 @@
+import 'package:analyzer/dart/element/element.dart';
+
 ///
 class ConstructorDefinition {
-  final String name;
-  final String? comment;
+  ///
+  final ConstructorElement constructorElement;
 
+  ///
   final String? code;
 
   ///
-  const ConstructorDefinition({required this.name, this.comment, this.code});
-
-  ///
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'comment': comment, 'code': code};
-  }
+  const ConstructorDefinition({required this.constructorElement, this.code});
 }

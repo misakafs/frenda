@@ -1,19 +1,13 @@
+import 'package:analyzer/dart/element/element.dart';
+
 ///
 class MethodDefinition {
   ///
-  final String name;
-
-  ///
-  final String? comment;
+  final MethodElement methodElement;
 
   ///
   final String? code;
 
   ///
-  const MethodDefinition({required this.name, this.comment, this.code});
-
-  ///
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'comment': comment, 'code': code};
-  }
+  const MethodDefinition({required this.methodElement, this.code});
 }

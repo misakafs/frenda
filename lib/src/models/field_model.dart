@@ -1,35 +1,58 @@
+import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
+
 ///
 class FieldDefinition {
-  final String name;
+  ///
+  final FieldElement fieldElement;
+
+  ///
   final String jsonName;
-  final String? comment;
+
+  ///
   final String type;
-  final bool isFinal;
-  final bool isNested;
+
+  ///
   final dynamic defaultValue;
 
   ///
-  const FieldDefinition({
-    required this.name,
-    required this.jsonName,
-    this.comment,
-    required this.type,
-    required this.isFinal,
-    required this.isNested,
-    this.defaultValue,
-  });
+  final String code;
 
   ///
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'jsonName': jsonName,
-      'comment': comment,
-      'type': type,
-      'isFinal': isFinal,
-      'isNested': isNested,
-      'defaultValue': defaultValue,
+  const FieldDefinition({
+    required this.fieldElement,
+    required this.jsonName,
+    required this.type,
+    this.defaultValue,
+    required this.code,
+  });
+
+  /// 是否是显式定义的getter
+  bool get isCustomGetting => !fieldElement.getter!.isSynthetic;
+
+  /// 类型是否为空
+  bool get isNullable => fieldElement.type.nullabilitySuffix == NullabilitySuffix.question;
+
+  /// 构造器是否需要忽略的字段
+  bool get isIgnore => isCustomGetting || fieldElement.isStatic || fieldElement.isPrivate;
+
+  /// info
+  void printInfo() {
+    final m = {
+      'name': fieldElement.name,
+      'isStatic': fieldElement.isStatic,
+      'isConst': fieldElement.isConst,
+      'isConstantEvaluated': fieldElement.isConstantEvaluated,
+      'isFinal': fieldElement.isFinal,
+      'hasInitializer': fieldElement.hasInitializer,
+      'isPrivate': fieldElement.isPrivate,
+      'isPublic': fieldElement.isPublic,
+      'nullabilitySuffix': fieldElement.type.nullabilitySuffix,
+      'type': fieldElement.type.toString(),
+      'getter': !fieldElement.getter!.isSynthetic,
+      'code': code,
     };
+    print(m);
   }
 
   ///

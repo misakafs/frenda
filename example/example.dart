@@ -39,10 +39,18 @@ class $Example {
 
   late Map<int, dynamic> field14;
 
+  late List<$User>? users1;
+
+  late Map<String, $User> users2;
+
+  late Set<$User> users3;
+
   /// 嵌入其他的类型
   late $User user1;
 
   late $User? user2;
+
+  static const name = 'example';
 
   /// 自定义方法
   String getString() {

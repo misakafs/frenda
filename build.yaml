@@ -1,6 +1,9 @@
 targets:
   $default:
     builders:
+      source_gen|combining_builder:
+        enabled: true
+
       frenda|frenda:
         enabled: true
         options:

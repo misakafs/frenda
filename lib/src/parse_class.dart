@@ -12,7 +12,7 @@ import 'models/constructor_model.dart';
 import 'models/field_model.dart';
 
 /// 解析类
-class ParseGenerator {
+class ParseClass {
   ///
   final BuildStep buildStep;
 
@@ -23,7 +23,7 @@ class ParseGenerator {
   final FrendaConfig config;
 
   ///
-  ParseGenerator(this.buildStep, this.element, this.config);
+  ParseClass(this.buildStep, this.element, this.config);
 
   ///
   Future<ClassDefinition> parse() async {
@@ -32,21 +32,19 @@ class ParseGenerator {
 
     final classRealName = className.substring(config.prefix.length);
 
-    // 获取注释
-    final classComment = element.documentationComment;
-
-    final constructors = await _getConstructors();
+    // 获取构造器，覆盖生成的构造器，暂时不支持，会有很多问题
+    // final constructors = await _getConstructors();
+    final List<ConstructorDefinition> constructors = [];
 
     // 获取所有的自定义方法
     final methods = await _getMethodDefinitions();
 
     // 获取所有的字段
-    final fields = _getFieldDefinitions();
+    final fields = await _getFieldDefinitions();
 
     return ClassDefinition(
-      name: className,
+      classElement: element,
       realName: classRealName,
-      comment: classComment,
       constructors: constructors,
       methods: methods,
       fields: fields,
@@ -59,12 +57,8 @@ class ParseGenerator {
 
     for (final constructor in element.constructors) {
       final code = await buildStep.resolver.astNodeFor(constructor, resolve: true).then((value) => value?.toSource());
-      var name = constructor.name;
-      if (name == '') {
-        name = 'default';
-      }
       if (code != null) {
-        constructors.add(ConstructorDefinition(name: name, comment: constructor.documentationComment, code: code));
+        constructors.add(ConstructorDefinition(constructorElement: constructor, code: code));
       }
     }
 
@@ -75,10 +69,15 @@ class ParseGenerator {
   Future<List<MethodDefinition>> _getMethodDefinitions() async {
     List<MethodDefinition> methods = [];
 
+    const whites = ['copyWith'];
+
     for (final method in element.methods) {
+      if (whites.contains(method.name)) {
+        continue;
+      }
       final code = await buildStep.resolver.astNodeFor(method, resolve: true).then((value) => value?.toSource());
       if (code != null) {
-        methods.add(MethodDefinition(name: method.name, comment: method.documentationComment, code: code));
+        methods.add(MethodDefinition(methodElement: method, code: code));
       }
     }
 
@@ -86,31 +85,38 @@ class ParseGenerator {
   }
 
   /// 获取字段列表
-  List<FieldDefinition> _getFieldDefinitions() {
-    return element.fields.map((field) {
+  Future<List<FieldDefinition>> _getFieldDefinitions() async {
+    List<FieldDefinition> fields = [];
+
+    for (final field in element.fields) {
       final value = field.hasInitializer ? _getAstFromElement(field).childEntities.last.toString() : null;
 
       final annotation = _getFiledAnnotation(field);
 
       var fieldType = field.type.toString();
 
-      var isNested = false;
-
-      if (fieldType.startsWith(config.prefix)) {
-        isNested = true;
-        fieldType = fieldType.substring(config.prefix.length);
+      if (fieldType.contains(config.prefix)) {
+        fieldType = fieldType.replaceAll(config.prefix, '');
+      }
+      String? code;
+      if (field.getter != null && !field.getter!.isSynthetic) {
+        code = await buildStep.resolver.astNodeFor(field.getter!, resolve: true).then((value) => value?.toSource());
+      } else {
+        code = await buildStep.resolver.astNodeFor(field, resolve: true).then((value) => value?.parent?.toSource());
       }
 
-      return FieldDefinition(
-        name: field.name,
-        jsonName: annotation?.json ?? field.name,
-        comment: field.documentationComment,
-        type: fieldType,
-        isFinal: field.isFinal,
-        isNested: isNested,
-        defaultValue: value,
+      fields.add(
+        FieldDefinition(
+          fieldElement: field,
+          jsonName: annotation?.json ?? field.name,
+          type: fieldType,
+          defaultValue: value,
+          code: code ?? '',
+        ),
       );
-    }).toList();
+    }
+
+    return fields;
   }
 
   /// 获取字段注解

@@ -27,9 +27,9 @@ class Simple implements Serializable {
   };
 
   factory Simple.fromJson(Map<String, dynamic> json) => Simple(
-    firstField: json['firstField'] as String,
-    secondField: json['secondField'] as int,
-    thirdField: json['third_field'] as bool?,
+    firstField: json['firstField'],
+    secondField: json['secondField'],
+    thirdField: json['third_field'],
   );
 
   Simple copyWith({String? firstField, int? secondField, bool? thirdField}) =>
@@ -41,7 +41,7 @@ class Simple implements Serializable {
 
   @override
   String toString() =>
-      'Simple(firstField: $firstField, secondField: $secondField, third_field: $thirdField)';
+      'Simple(firstField: $firstField, secondField: $secondField, thirdField: $thirdField)';
 
   @override
   bool operator ==(Object other) =>
